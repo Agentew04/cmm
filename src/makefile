@@ -1,4 +1,10 @@
 all: list
+	
+list: list.o
+	@echo "compiling list"
+	@gcc -o list list.o
+list.o: list.c
+	@gcc -c list.c -o list.o
 
-list: list.c list.h
-	gcc -g list.c list.h -o list
+clean:
+	@rm -f *.exe *.o *.out 

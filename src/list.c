@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "list.h"
 
-void printList(struct Node *head){
-    struct Node *current = head;
+void printList(LIST *list){
+    struct Node *current = list->head;
 
     while (current != NULL){
         printf("%d\n", current->value);
@@ -11,14 +11,20 @@ void printList(struct Node *head){
     }   
 }
 
-void appendToList(struct Node* node, int value){
-    struct Node* current = node;
+void appendToList(LIST *list, int value){
+    struct Node* current = list->head;
+    struct Node* newNode = createNode(value, NULL);
+
+    // if empty list
+    if(current == NULL){
+        list->head = newNode;
+        return;
+    }
 
     // get to last node
     while(current->next!=NULL) current = current->next;
 
     // here current is the last
-    struct Node* newNode = createNode(value, NULL);
     current->next = newNode;
 }
 
@@ -29,13 +35,14 @@ struct Node* createNode(int value, struct Node* next){
     return node;
 }
 
-void freeList(struct Node* head){
+void freeList(LIST *list){
     struct Node* temp;
-    while(head != NULL){
-        temp = head;
-        head = head->next;
+    while(list->head != NULL){
+        temp = list->head;
+        list->head = list->head->next;
         free(temp);
     }
+    free(list);
 }
 
 int getFirstIndex(struct Node* head, int value){
@@ -54,15 +61,48 @@ int getFirstIndex(struct Node* head, int value){
     return -1;
 }
 
+void removeValueFromList(struct Node* head, int value){
+    struct Node* current = head;
+    struct Node* previous = NULL;
+
+    while (current != NULL)
+    {
+        if(current->value == value){
+            if(previous == NULL){
+                // if the value is the first element
+                head = current->next;
+            }else{
+                previous->next = current->next;
+            }
+            free(current);
+            return;
+        }else{
+            previous = current;
+            current = current->next;
+        }
+    }
+}
+
+LIST* createList(int* values, int size){
+    LIST* list = malloc(sizeof *list);
+    list->size = size;
+    list->head = createNode(values[0], NULL);
+    list->tail = list->head;
+
+    for(int i=1; i<size; i++){
+        appendToList(list->tail, values[i]);
+        list->tail = list->tail->next;
+    }
+    return list;
+}
+
 int main(){
-    struct Node* nodetail = createNode(17, NULL);
-    struct Node* nodemiddle = createNode(16, nodetail);
-    struct Node* nodehead = createNode(15, nodemiddle);
-    appendToList(nodehead, 18);
-    printList(nodehead);
+    int values[] = {1,2,3,4,5,6,7,8,9,10};
 
-    int index = getFirstIndex(nodehead, 17);
-    printf("%d\n", index);
+    LIST* list = createList(&values[0], (sizeof values)/sizeof(int));
 
-    freeList(nodehead);
+    appendToList(list, 11);
+    printList(list);
+
+    freeList(list);
 }

@@ -3,7 +3,7 @@ typedef struct Node {
     int value;
 } NODE;
 
-typedef struct LinkedList{
+typedef struct List{
     struct Node *head;
     struct Node *tail;
     int size;
@@ -15,7 +15,15 @@ typedef struct LinkedList{
  * @param head The first node in the list
  * @param value The value contained in this node
  */
-void printList(struct Node* head);
+void printList(LIST* head);
+
+/**
+ * @brief Appends a value to the end of a list
+ * 
+ * @param node Any node from the list
+ * @param value The value to be appended
+ */
+void appendToList(LIST* list, int value);
 
 /**
  * @brief Allocates and create a node
@@ -32,15 +40,8 @@ struct Node* createNode(int value, struct Node* next);
  * 
  * @param head The first element in the list
  */
-void freeList(struct Node* head);
+void freeList(LIST* head);
 
-/**
- * @brief Appends a value to the end of a list
- * 
- * @param node Any node from the list
- * @param value The value to be appended
- */
-void appendToList(struct Node* node, int value);
 
 /**
  * @brief Get the index of the first ocurrence of a value
@@ -58,3 +59,10 @@ int getFirstIndex(struct Node* head, int value);
  * @param value The value to be removed
  */
 void removeValueFromList(struct Node* head, int value);
+
+/**
+ * @brief Create a List object
+ * 
+ * @return An list filled with the values
+ */
+LIST* createList(int* values, int size);
