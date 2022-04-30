@@ -18,6 +18,8 @@ void appendToList(LIST *list, int value){
     // if empty list
     if(current == NULL){
         list->head = newNode;
+        list->tail = newNode;
+        list->size++;
         return;
     }
 
@@ -84,13 +86,20 @@ void removeValueFromList(struct Node* head, int value){
 }
 
 LIST* createList(int* values, int size){
+    // check if new list should be empty
     LIST* list = malloc(sizeof *list);
     list->size = size;
-    list->head = createNode(values[0], NULL);
-    list->tail = list->head;
+    if(size == 0 || values == NULL){
+        list->head = NULL;
+        list->tail = NULL;
+    }else{
+        list->head = createNode(values[0], NULL);
+        list->tail = list->head;
+    }
 
+    // if empty the loop will not activate
     for(int i=1; i<size; i++){
-        appendToList(list->tail, values[i]);
+        appendToList(list, values[i]);
         list->tail = list->tail->next;
     }
     return list;
@@ -99,7 +108,8 @@ LIST* createList(int* values, int size){
 int main(){
     int values[] = {1,2,3,4,5,6,7,8,9,10};
 
-    LIST* list = createList(&values[0], (sizeof values)/sizeof(int));
+    //LIST* list = createList(&values[0], (sizeof values)/sizeof(int));
+    LIST* list = createList(NULL, 0);
 
     appendToList(list, 11);
     printList(list);

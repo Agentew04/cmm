@@ -42,7 +42,6 @@ struct Node* createNode(int value, struct Node* next);
  */
 void freeList(LIST* head);
 
-
 /**
  * @brief Get the index of the first ocurrence of a value
  * 
