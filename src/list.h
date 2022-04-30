@@ -33,7 +33,7 @@ void appendToList(LIST* list, int value);
  * 
  * @return The pointer to the Node
  */
-struct Node* createNode(int value, struct Node* next);
+static struct Node* createNode(int value, struct Node* next);
 
 /**
  * @brief Frees the resources related to the nodes subsequent
@@ -45,23 +45,27 @@ void freeList(LIST* head);
 /**
  * @brief Get the index of the first ocurrence of a value
  * 
- * @param head The first node in the list
+ * @param list The first node in the list
  * @param value The value to be searched
- * @return The index of the first ocurrence of the value
+ * @return The index of the first ocurrence of the value.
+ * If the value is not found, returns -1
  */
-int getFirstIndex(struct Node* head, int value);
+int getFirstIndex(LIST *list, int value);
 
 /**
  * @brief Removes the first ocurrence of a value from a list
  * 
- * @param head The first node from the list
+ * @param list The first node from the list
  * @param value The value to be removed
  */
-void removeValueFromList(struct Node* head, int value);
+void removeFirstValueFromList(LIST *list, int value);
 
 /**
- * @brief Create a List object
+ * @brief Creates a list based on a array. If values or
+ * size are respectively NULL or 0, the list will be empty
  * 
- * @return An list filled with the values
+ * @param values a pointer to many values
+ * @param size how many values are in the array/pointer
+ * @return A pointer to the list object
  */
 LIST* createList(int* values, int size);
