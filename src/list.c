@@ -44,24 +44,17 @@ LIST *createList(int *values, int size)
 
 void appendToList(LIST *list, int value)
 {
-    struct Node *current = list->head;
     struct Node *newNode = createNode(value, NULL);
 
-    // if empty list
-    if (current == NULL)
+    if (list->head == NULL || list->tail==NULL || list->size==0)
     {
         list->head = newNode;
         list->tail = newNode;
-        list->size++;
-        return;
+    }else{
+        list->tail->next = newNode;
+        list->tail = newNode;
     }
-
-    // get to last node
-    while (current->next != NULL)
-        current = current->next;
-
-    // here current is the last
-    current->next = newNode;
+    list->size++;
 }
 
 void removeFirstValueFromList(LIST *list, int value)
@@ -153,8 +146,8 @@ int main()
 {
     int values[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
-    // LIST* list = createList(&values[0], (sizeof values)/sizeof(int));
-    LIST *list = createList(NULL, 0);
+    LIST* list = createList(&values[0], (sizeof values)/sizeof(int));
+    //LIST *list = createList(NULL, 0);
 
     appendToList(list, 11);
     printList(list);
