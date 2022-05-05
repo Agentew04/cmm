@@ -41,3 +41,11 @@ void appendToDict(DICT* list, int key, int value);
  * NULL if the size of the arrays are not equal
  */
 DICT* createDict(int* keys, int* values);
+
+/**
+ * @brief Hashes a string using crc32
+ * 
+ * @param message The string to be hashed,
+ * must end with a null character
+ */
+static unsigned int crc32b(unsigned char *message);
