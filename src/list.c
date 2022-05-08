@@ -3,6 +3,19 @@
 #include "list.h"
 #include <stdbool.h>
 
+// #region Prototypes
+/**
+ * @brief Allocates and create a node
+ * 
+ * @param value The value to be added
+ * @param next The next node in the list, NULL if last
+ * 
+ * @return The pointer to the Node
+ */
+static struct Node* createNode(int value, struct Node* next);
+
+// #endregion
+
 // #region Creates
 
 static struct Node *createNode(int value, struct Node *next)

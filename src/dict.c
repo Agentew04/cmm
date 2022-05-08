@@ -2,6 +2,24 @@
 #include <stdlib.h>
 #include "dict.h"
 
+/**
+ * @brief Hashes a string using crc32
+ * 
+ * @param message The string to be hashed,
+ * must end with a null character
+ */
+static unsigned int crc32b(char *message);
+/**
+ * @brief Allocates and create a node
+ * 
+ * @param key The key of the node
+ * @param value The value to be added
+ * @param next The next node in the list, NULL if last
+ * 
+ * @return The pointer to the Node
+ */
+static struct Node* createNode(char* key, int value, struct Node *next);
+
 #define ARRAY_SIZE(x) ( sizeof(x) / sizeof((x)[0]) )
 
 static struct Node* createNode(char* key, int value, struct Node *next){
@@ -28,7 +46,7 @@ void addToDict(DICT *dict, char *key, int value){
     dict->size++;
 }
 
-void removeFromDict(DICT *dict, int key){
+void removeFromDict(DICT *dict, char *key){
     struct Node* node = dict->head;
     unsigned int hash = crc32b(key);
     struct Node* prev = NULL;
@@ -50,7 +68,7 @@ void removeFromDict(DICT *dict, int key){
     }
 }
 
-int getValueFromDict(DICT *dict, int key){
+int getValueFromDict(DICT *dict, char *key){
 
     
     unsigned int hash = crc32b(key);
@@ -64,7 +82,7 @@ int getValueFromDict(DICT *dict, int key){
     return -1;
 }
 
-void editValueInDict(DICT *dict, int key, int value){
+void editValueInDict(DICT *dict, char *key, int value){
     unsigned int hash = crc32b(key);
     struct Node* node = dict->head;
     while(node != NULL){
@@ -76,7 +94,7 @@ void editValueInDict(DICT *dict, int key, int value){
     }
 }
 
-int keyExistsInDict(DICT *dict, int key){
+int keyExistsInDict(DICT *dict, char *key){
     int count = 0;
     unsigned int hash = crc32b(key);
     struct Node* node = dict->head;
@@ -97,18 +115,11 @@ DICT* createEmptyDict(){
     dict->tail = NULL;
     return dict;
 }
-DICT* createDict(char* key[], int value[]){
-    int keySize = ARRAY_SIZE(key);
-    int valueSize = ARRAY_SIZE(value);
+DICT* createDict(char **key, int *values, int size){
     DICT* dict = createEmptyDict();
 
-    if(keySize != valueSize){
-        printf("Error: key and value arrays are not the same size");
-        return NULL;
-    }
-
-    for(int i = 0; i < keySize; i++){
-        addToDict(dict, key[i], value[i]);
+    for(int i = 0; i < size; i++){
+        addToDict(dict, key[i], values[i]);
     }
     return dict;
 }
@@ -125,7 +136,7 @@ void freeDict(DICT *dict){
     free(dict);
 }
 
-static unsigned int crc32b(unsigned char *message) {
+static unsigned int crc32b(char *message) {
    int i, j;
    unsigned int byte, crc, mask;
 

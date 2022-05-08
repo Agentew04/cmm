@@ -1,3 +1,6 @@
+// this is not necessary, but if optimizes compile
+#define EXPORT __declspec(dllexport)
+
 typedef struct Node {
     struct Node *next;
     int value;
@@ -25,15 +28,7 @@ void printList(LIST* head);
  */
 void appendToList(LIST* list, int value);
 
-/**
- * @brief Allocates and create a node
- * 
- * @param value The value to be added
- * @param next The next node in the list, NULL if last
- * 
- * @return The pointer to the Node
- */
-static struct Node* createNode(int value, struct Node* next);
+
 
 /**
  * @brief Frees the resources related to the nodes subsequent
