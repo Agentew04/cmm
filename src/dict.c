@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "dict.h"
+#include <string.h>
 
 /**
  * @brief Hashes a string using crc32
@@ -35,7 +36,12 @@ static struct Node* createNode(char* key, int value, struct Node *next){
 }
 
 void addToDict(DICT *dict, char *key, int value){
-    struct Node* node = createNode(key, value, NULL);
+    // copy string
+    char* keyCopy = (char*) malloc(strlen(key) + 1);
+    strcpy(keyCopy, key);
+
+    // create node
+    struct Node* node = createNode(keyCopy, value, NULL);
     if(dict->head == NULL){
         dict->head = node;
         dict->tail = node;
@@ -69,8 +75,6 @@ void removeFromDict(DICT *dict, char *key){
 }
 
 int getValueFromDict(DICT *dict, char *key){
-
-    
     unsigned int hash = crc32b(key);
     struct Node* node = dict->head;
     while(node != NULL){
@@ -108,7 +112,7 @@ int keyExistsInDict(DICT *dict, char *key){
 }
 
 
-DICT* createEmptyDict(){
+DICT* createEmptyDict(void){
     DICT* dict = (DICT*) malloc(sizeof(DICT));
     dict->size = 0;
     dict->head = NULL;
@@ -134,6 +138,16 @@ void freeDict(DICT *dict){
         node = next;
     }
     free(dict);
+}
+
+void printDict(DICT *dict){
+    struct Node* node = dict->head;
+    printf("[");
+    while(node != NULL){
+        printf("\n {'%s', %d},", node->pair->key, node->pair->value);
+        node = node->next;
+    }
+    printf("\b \n]");
 }
 
 static unsigned int crc32b(char *message) {

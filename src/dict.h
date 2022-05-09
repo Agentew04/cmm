@@ -83,3 +83,9 @@ DICT* createDict(char **keys, int *values, int size);
  * @param dict The dict object to be freed
  */
 void freeDict(DICT *dict);
+/**
+ * @brief Prints the contents of a dictionary
+ * 
+ * @param dict The dict object 
+ */
+void printDict(DICT *dict);

@@ -22,4 +22,4 @@ dict: $(src)/dict.c
 	gcc -c $^ -o $(bin)/$@.o $(errFlags) $(opt)
 
 clean:
-	rm -f $(bin)/*.dll $(bin)/*.o
+	rm -f $(bin)/*.dll $(bin)/*.o $(bin)/*.exe
