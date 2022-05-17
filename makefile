@@ -9,7 +9,6 @@ opt = -O3
 all: libs exec
 	
 libs: list dict
-	@echo "Compiling dll file"
 	gcc -shared -o $(bin)/cmm.dll $(bin)/list.o $(bin)/dict.o
 
 exec: $(src)/exec.c
